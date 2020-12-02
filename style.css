@@ -1,0 +1,66 @@
+@import url('https://fonts.googleapis.com/css2?family=Grandstander&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Finger+Paint&display=swap');
+
+html,body {
+	margin: 0;
+	padding: 0;
+	font-family: Comic Sans MS;
+}
+
+
+
+.vertical-center {
+  min-height: 100%;  /* Fallback for browsers do NOT support vh unit */
+  min-height: 100vh; /* These two lines are counted as one :-)       */
+	display: flex;
+	justify-content: center;
+  align-items: center;
+}
+
+.container {
+	display: flex;
+	justify-content: center;
+}
+
+.box
+{
+	background-color: #212121;
+	max-width: 500px;
+	margin: 10px;
+	padding: 10px;
+	transition: 0.5s;
+	color: #dedede;
+	border-radius: 15px;
+	border: 3px solid black;
+}
+
+.boxcontent
+{
+	max-width: 500px;
+	margin: 0px;
+
+
+}
+
+.box:hover
+{
+	transition: 0.5s;
+	transform: scale(1.033);
+}
+
+.top
+{
+	border-bottom: solid 2px #b8b8b8;
+	text-align: left;
+	height: 25%;
+	width: 100%;
+	font-size: 24px;
+}
+
+.bottom
+{
+	text-align: left;
+	height: 75%;
+	width: 100%;
+	font-size: 18px;
+}
