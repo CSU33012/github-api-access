@@ -27,13 +27,14 @@
  					<div class="boxcontent">
  						<div class="top">User Information</div>
  						<div class="bottom">
-               <b>ID:</b>
-               <p>Darragh</p>
-               <b>Creaton Date:</b>
-               <p>Dublin, Ireland</p>
+               <p></p>
+               <p id="username"><b>Username:</b></p>
+               <p id="creationdate"><b>Created:</b></p>
              </div>
  					</div>
  			</div>
+
+      <input type="user" class="form-control" placeholder="username" id="userinput">
 
        <button type="button" class="btn btn-primary" id="myButton">Click me!</button>
 
@@ -65,11 +66,11 @@
        })
 
       async function getData() {
-        const result = await request("GET /users/:user", {
-        user: "octokit",
+        const response = await request("GET /users/:user", {
+        user: document.getElementById("userinput").value,
         });
-
-        console.log(`${result.data.login}`);
+        document.getElementById("username").innerHTML = "<b>Username: </b>" + response.data.login;
+        document.getElementById("creationdate").innerHTML = "<b>Created: </b>" + response.data.created_at;
       }
 
     </script>
