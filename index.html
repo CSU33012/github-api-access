@@ -59,6 +59,7 @@
     <script type="module">
 
       import { request } from "https://cdn.skypack.dev/@octokit/request";
+
       $('#myButton').on('click', function (e) {
           //your awesome code here
           console.log("hello world");
@@ -66,11 +67,15 @@
        })
 
       async function getData() {
-        const response = await request("GET /users/:user", {
-        user: document.getElementById("userinput").value,
+
+        const response = await request("GET /repos/:user/test", {
+          headers: {
+            authorization: "token 0cbc8c76cb82e994de08c63c7b3a4a786a1c0dfe",
+          },
+          user: document.getElementById("userinput").value
         });
-        document.getElementById("username").innerHTML = "<b>Username: </b>" + response.data.login;
-        document.getElementById("creationdate").innerHTML = "<b>Created: </b>" + response.data.created_at;
+        document.getElementById("username").innerHTML = "<b>Username: </b>" + response.data.id;
+        //document.getElementById("creationdate").innerHTML = "<b>Created: </b>" + response.data.created_at;
       }
 
     </script>
