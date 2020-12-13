@@ -25,11 +25,13 @@
 
        <div class="box">
  					<div class="boxcontent">
- 						<div class="top">User Information</div>
+ 						<div class="top"><b>User Information</b></div>
  						<div class="bottom">
                <p></p>
                <p id="username"><b>Username:</b></p>
-               <p id="creationdate"><b>Created:</b></p>
+               <p id="account-age"><b>Account-Age:</b></p>
+               <p id="public-repos"><b>Public Repos:</b></p>
+               <p id="private-repos"><b>Private-Repos:</b></p>
              </div>
  					</div>
  			</div>
@@ -60,8 +62,6 @@
     -->
     <script type="module">
 
-      import { oauthAuthorizationUrl } from "https://cdn.skypack.dev/@octokit/oauth-authorization-url";
-      import { createAppAuth, createOAuthAppAuth, createTokenAuth } from "https://cdn.skypack.dev/@octokit/auth";
       import { request } from "https://cdn.skypack.dev/@octokit/request";
 
       window.onload = getCode;
@@ -90,10 +90,8 @@
         });
         //window.location.href = url;
         */
-        var client_id = "Iv1.39eb7d200d6ceb3a";
-        window.location.href = "https://github.com/login/oauth/authorize?client_id="+client_id+"&login="+document.getElementById("userinput").value;
-        //document.getElementById("username").innerHTML = "<b>Username: </b>" + response.data.id;
-        //document.getElementById("creationdate").innerHTML = "<b>Created: </b>" + response.data.created_at;
+        var client_id = "25efd33f244c9c0ae0d6";
+        window.location.href = "https://github.com/login/oauth/authorize?client_id="+client_id+"&scope=repo"+"&login="+document.getElementById("userinput").value;
 
       }
 
@@ -153,7 +151,10 @@
               type: "POST",
               data: code,
               success: function (response) {
-                console.log(response);
+                if(response != "code invalid") {
+                  console.log("access token received: " + response);
+                  getUserData(response);
+                }
               },
               error: function(err) {
                 console.log(err);
@@ -162,10 +163,44 @@
           )
       }
 
-      function getUserData(accessToken) {
-        console.log("success");
+      async function getUserData(accessToken) {
+        console.log("fetching user data");
+        const userInformation = await request("GET /user", {
+          headers: {
+            authorization: "token " + accessToken,
+          },
+        });
+
+
+        setUsername(userInformation.data.login);
+        calculateAndSetAccountAge(userInformation.data.created_at);
+
+        const repoInformation = await request("GET /user/repos", {
+          headers: {
+            authorization: "token " + accessToken,
+          },
+        });
+
+        calculateNumberOfPublicAndPrivateRepos(repoInformation.data, userInformation.data.public_repos);
       }
 
+      function setUsername(username) {
+        document.getElementById("username").innerHTML = "<b>Username: </b>" + username;
+      }
+
+      function calculateAndSetAccountAge(creationDate) {
+        var year = creationDate.substring(0,4);
+        var month = creationDate.substring(5,7);
+        var day = creationDate.substring(8,10);
+        document.getElementById("account-age").innerHTML = "<b>Account-Age: </b>" + Math.round((((((new Date() - new Date(parseInt(year), parseInt(month), parseInt(day)))/1000)/60)/60)/24)) + " days.";
+      }
+
+      function calculateNumberOfPublicAndPrivateRepos(repodata, numberOfPublicRepos) {
+        var publicRepos=numberOfPublicRepos;
+        var privateRepos=repodata.length-numberOfPublicRepos;
+        document.getElementById("public-repos").innerHTML = "<b>Public Repos: </b>" + publicRepos;
+        document.getElementById("private-repos").innerHTML = "<b>Private Repos: </b>" + privateRepos;
+      }
 
 
     </script>

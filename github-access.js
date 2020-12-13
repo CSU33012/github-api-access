@@ -21,8 +21,8 @@ http.createServer(function (req, res) {
             const { createOAuthAppAuth } = require("@octokit/auth-oauth-app");
 
             const auth = createOAuthAppAuth({
-              clientId: "Iv1.39eb7d200d6ceb3a",
-              clientSecret: "e860f2028e1381fca4901275385b55a971fb352a",
+              clientId: "25efd33f244c9c0ae0d6",
+              clientSecret: "0afe685f276806b646fd1d61f6c930d11e2b95fe",
             });
 
             const tokenAuthentication = await auth({

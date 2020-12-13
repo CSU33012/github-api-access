@@ -15,7 +15,7 @@ html,body {
 	display: flex;
 	justify-content: center;
   align-items: center;
-	background-color: #212121;
+	background-image: url("background_2.jfif");
 }
 
 .container {
