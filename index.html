@@ -38,7 +38,8 @@
 
       <input type="user" class="form-control" placeholder="username" id="userinput">
 
-      <button type="button" class="btn btn-primary" id="myButton">Click me!</button>
+      <button type="button" class="btn btn-primary" id="myButtonBasic">Get public info</button>
+      <button type="button" class="btn btn-primary" id="myButton">Get all info</button>
 
 
 
@@ -71,6 +72,34 @@
           console.log("hello world");
           getData();
        })
+
+       $('#myButtonBasic').on('click', function (e) {
+           //your awesome code here
+           console.log("hello world");
+           getBasicData();
+        })
+
+       async function getBasicData() {
+         var user = document.getElementById("userinput").value;
+         var client_id = "25efd33f244c9c0ae0d6";
+         var client_secret = "0afe685f276806b646fd1d61f6c930d11e2b95fe";
+         console.log("fetching user data");
+         const userInformation = await request("GET /users/:username", {
+           client_id: "25efd33f244c9c0ae0d6",
+           client_secret: "0afe685f276806b646fd1d61f6c930d11e2b95fe",
+           username: user
+         });
+         setUsername(userInformation.data.login);
+         calculateAndSetAccountAge(userInformation.data.created_at);
+
+         const repoInformation = await request("GET /users/:username/repos", {
+           client_id: "25efd33f244c9c0ae0d6",
+           client_secret: "0afe685f276806b646fd1d61f6c930d11e2b95fe",
+           username: user
+         });
+
+         calculateNumberOfPublicAndPrivateRepos(null, userInformation.data.public_repos);
+       }
 
       async function getData() {
         /*
@@ -197,7 +226,11 @@
 
       function calculateNumberOfPublicAndPrivateRepos(repodata, numberOfPublicRepos) {
         var publicRepos=numberOfPublicRepos;
-        var privateRepos=repodata.length-numberOfPublicRepos;
+        privateRepos=0;
+        if(repodata != null) {
+         var privateRepos=repodata.length-numberOfPublicRepos;
+        }
+
         document.getElementById("public-repos").innerHTML = "<b>Public Repos: </b>" + publicRepos;
         document.getElementById("private-repos").innerHTML = "<b>Private Repos: </b>" + privateRepos;
       }
