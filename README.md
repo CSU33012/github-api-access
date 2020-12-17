@@ -2,7 +2,7 @@
 
 A full version of this code is running on my personal website @ https://github-access.darragh.io
 
-Unfortunately due to the way Github Authentication works regarding tokens, you cannot use the 'Get all info' button feature which is available on my website.
+Unfortunately due to the way Github Authentication works regarding tokens, you cannot use the 'Get all info' button feature on your local machine, but it is available on my website.
 This means there is no point in running the NodeJS server on your local machine, as it serves no purpose. The difference between 'get all info' and 'get public info'
 is that 'get all info' allows the user to authenticate my app to see non-public information that is available on the API.
 
